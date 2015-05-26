@@ -1,11 +1,13 @@
 import math
 from penrose import PenroseP3, BtileS, BtileL
 
+# A "sun", with randomly-coloured tiles and including arc paths
+
 scale = 100
-config={'draw-arcs': True, 'tile-opacity': 0.4,
-        'random-tile-colours': True, 'Aarc-colour': '#f88',
-        'Carc-colour': '#88f'}
-tiling = PenroseP3(scale, ngen=3, config=config)
+config={'draw-arcs': True, 'tile-opacity': 0.6,
+        'random-tile-colours': True, 'Aarc-colour': '#f44',
+        'Carc-colour': '#44f'}
+tiling = PenroseP3(scale, ngen=4, config=config)
 
 theta = math.pi / 5
 alpha = math.cos(theta)
