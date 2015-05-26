@@ -1,3 +1,4 @@
+# example3.py
 import math
 from penrose import PenroseP3, BtileL, psi
 

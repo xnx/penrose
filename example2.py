@@ -1,3 +1,4 @@
+# example2.py
 import math
 from penrose import PenroseP3, BtileS, BtileL
 
