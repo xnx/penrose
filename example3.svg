@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg width="100%" height="100%" viewBox="-210.0 -210.0 420.0 420.0"
-     preserveAspectRatio="xMidYMid meet"
-     version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
-
+<svg width="100%" height="100%" viewBox="-210.0 -210.0 420.0 420.0" preserveAspectRatio="xMidYMid meet" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
 <g style="stroke:#fff; stroke-width: 0.901699437495;">
 <path fill="#9f3" opacity="0.6" d="m-161.803398875,0.0 l9.01699437495,0.0 l2.78640450004,-8.57567125769 l-9.01699437495,0.0z"/>
 <path fill="none" stroke="#ff5e25" d="M -157.294901688 0.0 A 4.50849718747 4.50849718747 0 0 0 -160.410196625 -4.28783562885"/>

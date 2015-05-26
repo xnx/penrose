@@ -213,12 +213,12 @@ class PenroseP3:
 
         xmin = ymin = -self.scale * self.config['margin']
         width =  height = 2*self.scale * self.config['margin']
-        viewbox ='"{} {} {} {}"'.format(xmin, ymin, width, height)
-        svg = ["""<?xml version="1.0" encoding="utf-8"?>
-<svg width="100%" height="100%" viewBox="""+viewbox+"""
-     preserveAspectRatio="xMidYMid meet"
-     version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
-"""]
+        viewbox ='{} {} {} {}'.format(xmin, ymin, width, height)
+        svg = ['<?xml version="1.0" encoding="utf-8"?>',
+               '<svg width="100%" height="100%" viewBox="{}"'
+               ' preserveAspectRatio="xMidYMid meet" version="1.1"'
+               ' baseProfile="full" xmlns="http://www.w3.org/2000/svg">'
+                    .format(viewbox)]
         # The tiles' stroke widths scale with ngen
         stroke_width = str(psi**self.ngen * self.scale *
                                             self.config['base-stroke-width'])
