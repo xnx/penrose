@@ -64,7 +64,7 @@ class RobinsonTriangle:
         # arc radius
         r = abs((V - U) / 2)
 
-        if half_arc or 1:
+        if half_arc:
             # Find the endpoint of the "half-arc" terminating on the triangle
             # base
             UN = V + W - U
@@ -172,7 +172,8 @@ class PenroseP3:
                        'draw-tiles': True,
                        'draw-arcs': False,
                        'reflect-x': True,
-                       'draw-rhombuses': True
+                       'draw-rhombuses': True,
+                       'rotate': 0,
                       }
         self.config.update(config)
         # And ensure width, height values are strings for the SVG
@@ -221,6 +222,14 @@ class PenroseP3:
         if self.config['reflect-x']:
             self.add_conjugate_elements()
             self.remove_dupes()
+
+        theta = self.config['rotate']
+        if theta:
+            rot = math.cos(theta) + 1j * math.sin(theta)
+            for e in self.elements:
+                e.A *= rot
+                e.B *= rot
+                e.C *= rot
 
     def get_tile_colour(self, e):
         if self.config['random-tile-colours']:

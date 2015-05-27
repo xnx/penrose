@@ -11,7 +11,8 @@ config = {'draw-arcs': True,
           'Aarc-colour': '#ff5e25',
           'Carc-colour': 'none',
           'Stile-colour': '#090',
-          'Ltile-colour': '#9f3'}
+          'Ltile-colour': '#9f3',
+          'rotate': math.pi/2}
 tiling = PenroseP3(scale*2, ngen=5, config=config)
 
 theta = 2*math.pi / 5
