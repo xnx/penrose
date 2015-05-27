@@ -32,48 +32,64 @@ class RobinsonTriangle:
 
         return (self.A + self.C) / 2
 
-    def path(self):
+    def path(self, rhombus=True):
         """
         Return the SVG "d" path element specifier for the rhombus formed
-        by this triangle and its mirror image joined along their bases.
+        by this triangle and its mirror image joined along their bases. If
+        rhombus=False, the path for the triangle itself is returned instead.
 
         """
 
         AB, BC = self.B - self.A, self.C - self.B 
         xy = lambda v: (v.real, v.imag)
-        return 'm{},{} l{},{} l{},{} l{},{}z'.format(*xy(self.A) + xy(AB)
+        if rhombus:
+            return 'm{},{} l{},{} l{},{} l{},{}z'.format(*xy(self.A) + xy(AB)
                                                         + xy(BC) + xy(-AB))
+        return 'm{},{} l{},{} l{},{}z'.format(*xy(self.A) + xy(AB)
+                                                        + xy(BC))
 
-    def get_arc_d(self, U, V, W):
+
+    def get_arc_d(self, U, V, W, half_arc=False):
         """
         Return the SVG "d" path element specifier for the circular arc between
-        sides UV and UW, joined at half-distance along these sides.
+        sides UV and UW, joined at half-distance along these sides. If
+        half_arc is True, the arc is at the vertex of a rhombus; if half_arc
+        is False, the arc is drawn for the corresponding vertices of a
+        Robinson triangle.
 
         """
 
         start = (U + V) / 2
         end = (U + W) / 2
+        # arc radius
+        r = abs((V - U) / 2)
+
+        if half_arc or 1:
+            # Find the endpoint of the "half-arc" terminating on the triangle
+            # base
+            UN = V + W - U
+            end = U + r * UN / abs(UN)
 
         # ensure we draw the arc for the angular component < 180 deg
         cross = lambda u, v: u.real*v.imag - u.imag*v.real
         US, UE = start - U, end - U
         if cross(US, UE) > 0:
             start, end = end, start
-        # arc radius
-        r = abs((V - U) / 2)
         return 'M {} {} A {} {} 0 0 0 {} {}'.format(start.real, start.imag,
                                                     r, r, end.real, end.imag)
 
-    def arcs(self):
+    def arcs(self, half_arc=False):
         """
         Return the SVG "d" path element specifiers for the two circular arcs
-        about vertices A and C.
+        about vertices A and C. If half_arc is True, the arc is at the vertex
+        of a rhombus; if half_arc is False, the arc is drawn for the
+        corresponding vertices of a Robinson triangle.
 
         """
         
         D = self.A + self.C - self.B
-        arc1_d = self.get_arc_d(self.A, self.B, D)
-        arc2_d = self.get_arc_d(self.C, self.B, D)
+        arc1_d = self.get_arc_d(self.A, self.B, D, half_arc)
+        arc2_d = self.get_arc_d(self.C, self.B, D, half_arc)
         return arc1_d, arc2_d
 
     def conjugate(self):
@@ -143,7 +159,8 @@ class PenroseP3:
         self.ngen = ngen
 
         # Default configuration
-        self.config = {'stroke-colour': '#fff',
+        self.config = {'width': '100%', 'height': '100%',
+                       'stroke-colour': '#fff',
                        'base-stroke-width': 0.05,
                        'margin': 1.05,
                        'tile-opacity': 0.6,
@@ -154,9 +171,13 @@ class PenroseP3:
                        'Carc-colour': '#00f',
                        'draw-tiles': True,
                        'draw-arcs': False,
-                       'reflect-x': True
+                       'reflect-x': True,
+                       'draw-rhombuses': True
                       }
         self.config.update(config)
+        # And ensure width, height values are strings for the SVG
+        self.config['width'] = str(self.config['width'])
+        self.config['height'] = str(self.config['height'])
 
         self.elements = []
 
@@ -215,20 +236,22 @@ class PenroseP3:
         width =  height = 2*self.scale * self.config['margin']
         viewbox ='{} {} {} {}'.format(xmin, ymin, width, height)
         svg = ['<?xml version="1.0" encoding="utf-8"?>',
-               '<svg width="100%" height="100%" viewBox="{}"'
+               '<svg width="{}" height="{}" viewBox="{}"'
                ' preserveAspectRatio="xMidYMid meet" version="1.1"'
                ' baseProfile="full" xmlns="http://www.w3.org/2000/svg">'
-                    .format(viewbox)]
+                .format(self.config['width'], self.config['height'], viewbox)]
         # The tiles' stroke widths scale with ngen
         stroke_width = str(psi**self.ngen * self.scale *
                                             self.config['base-stroke-width'])
         svg.append('<g style="stroke:{}; stroke-width: {};">'
                 .format(self.config['stroke-colour'], stroke_width))
+        draw_rhombuses = self.config['draw-rhombuses']
         for e in self.elements:
             if self.config['draw-tiles']:
-                svg.append('<path fill="{}" opacity="{}" d="{}"/>'
+                svg.append('<path fill="{}" fill-opacity="{}" d="{}"/>'
                         .format(self.get_tile_colour(e),
-                                self.config['tile-opacity'], e.path()))
+                                self.config['tile-opacity'],
+                                e.path(rhombus=draw_rhombuses)))
             if self.config['draw-arcs']:
                 arc1_d, arc2_d = e.arcs()
                 svg.append('<path fill="none" stroke="{}" d="{}"/>'
