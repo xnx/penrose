@@ -67,7 +67,7 @@ class RobinsonTriangle:
         if half_arc:
             # Find the endpoint of the "half-arc" terminating on the triangle
             # base
-            UN = V + W - U
+            UN = V + W - 2*U
             end = U + r * UN / abs(UN)
 
         # ensure we draw the arc for the angular component < 180 deg
@@ -87,7 +87,7 @@ class RobinsonTriangle:
 
         """
         
-        D = self.A + self.C - self.B
+        D = self.A - self.B + self.C
         arc1_d = self.get_arc_d(self.A, self.B, D, half_arc)
         arc2_d = self.get_arc_d(self.C, self.B, D, half_arc)
         return arc1_d, arc2_d
@@ -218,7 +218,8 @@ class PenroseP3:
 
         for gen in range(self.ngen):
             self.inflate()
-        self.remove_dupes()
+        if self.config['draw-rhombuses']:
+            self.remove_dupes()
         if self.config['reflect-x']:
             self.add_conjugate_elements()
             self.remove_dupes()
@@ -252,7 +253,8 @@ class PenroseP3:
         # The tiles' stroke widths scale with ngen
         stroke_width = str(psi**self.ngen * self.scale *
                                             self.config['base-stroke-width'])
-        svg.append('<g style="stroke:{}; stroke-width: {};">'
+        svg.append('<g style="stroke:{}; stroke-width: {};'
+                   ' stroke-linejoin: round;">'
                 .format(self.config['stroke-colour'], stroke_width))
         draw_rhombuses = self.config['draw-rhombuses']
         for e in self.elements:
@@ -262,7 +264,7 @@ class PenroseP3:
                                 self.config['tile-opacity'],
                                 e.path(rhombus=draw_rhombuses)))
             if self.config['draw-arcs']:
-                arc1_d, arc2_d = e.arcs()
+                arc1_d, arc2_d = e.arcs(half_arc=not draw_rhombuses)
                 svg.append('<path fill="none" stroke="{}" d="{}"/>'
                                 .format(self.config['Aarc-colour'], arc1_d))
                 svg.append('<path fill="none" stroke="{}" d="{}"/>'
