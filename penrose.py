@@ -266,10 +266,20 @@ class PenroseP3:
             self.flip_x()
 
     def get_tile_colour(self, e):
+        """ Return a HTML-style colour string for the tile. """
+
         if self.config['random-tile-colours']:
+            # Return a random colour as '#xxx'
             return '#' + hex(random.randint(0,0xfff))[2:]
+
+        # Return the colour string, or call the colour function as appropriate
         if isinstance(e, BtileL):
+            if hasattr(self.config['Ltile-colour'], '__call__'):
+                return self.config['Ltile-colour'](e)
             return self.config['Ltile-colour']
+
+        if hasattr(self.config['Stile-colour'], '__call__'):
+                return self.config['Stile-colour'](e)
         return self.config['Stile-colour']
 
     def make_svg(self):
