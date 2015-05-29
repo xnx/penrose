@@ -174,6 +174,7 @@ class PenroseP3:
                        'reflect-x': True,
                        'draw-rhombuses': True,
                        'rotate': 0,
+                       'flip-y': False
                       }
         self.config.update(config)
         # And ensure width, height values are strings for the SVG
@@ -224,6 +225,7 @@ class PenroseP3:
             self.add_conjugate_elements()
             self.remove_dupes()
 
+        # Rotate the figure anti-clockwise by theta radians.
         theta = self.config['rotate']
         if theta:
             rot = math.cos(theta) + 1j * math.sin(theta)
@@ -231,6 +233,14 @@ class PenroseP3:
                 e.A *= rot
                 e.B *= rot
                 e.C *= rot
+
+        # flip the image about the y-axis (note this occurs _after_ any
+        # rotation.
+        if self.config['flip-y']:
+            for e in self.elements:
+                e.A = complex(-e.A.real, e.A.imag)
+                e.B = complex(-e.B.real, e.B.imag)
+                e.C = complex(-e.C.real, e.C.imag)
 
     def get_tile_colour(self, e):
         if self.config['random-tile-colours']:
