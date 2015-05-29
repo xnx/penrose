@@ -174,7 +174,7 @@ class PenroseP3:
                        'reflect-x': True,
                        'draw-rhombuses': True,
                        'rotate': 0,
-                       'flip-y': False
+                       'flip-y': False, 'flip-x': False,
                       }
         self.config.update(config)
         # And ensure width, height values are strings for the SVG
@@ -214,6 +214,31 @@ class PenroseP3:
 
         self.elements.extend([e.conjugate() for e in self.elements])
 
+    def rotate(self, theta):
+        """ Rotate the figure anti-clockwise by theta radians."""
+
+        rot = math.cos(theta) + 1j * math.sin(theta)
+        for e in self.elements:
+            e.A *= rot
+            e.B *= rot
+            e.C *= rot
+
+    def flip_y(self):
+        """ Flip the figure about the y-axis. """
+
+        for e in self.elements:
+            e.A = complex(-e.A.real, e.A.imag)
+            e.B = complex(-e.B.real, e.B.imag)
+            e.C = complex(-e.C.real, e.C.imag)
+
+    def flip_x(self):
+        """ Flip the figure about the x-axis. """
+
+        for e in self.elements:
+            e.A = e.A.conjugate()
+            e.B = e.B.conjugate()
+            e.C = e.C.conjugate()
+
     def make_tiling(self):
         """ Make the Penrose tiling by inflating ngen times. """
 
@@ -228,19 +253,17 @@ class PenroseP3:
         # Rotate the figure anti-clockwise by theta radians.
         theta = self.config['rotate']
         if theta:
-            rot = math.cos(theta) + 1j * math.sin(theta)
-            for e in self.elements:
-                e.A *= rot
-                e.B *= rot
-                e.C *= rot
+            self.rotate(theta)
 
-        # flip the image about the y-axis (note this occurs _after_ any
+        # Flip the image about the y-axis (note this occurs _after_ any
         # rotation.
         if self.config['flip-y']:
-            for e in self.elements:
-                e.A = complex(-e.A.real, e.A.imag)
-                e.B = complex(-e.B.real, e.B.imag)
-                e.C = complex(-e.C.real, e.C.imag)
+            self.flip_y()
+
+        # Flip the image about the x-axis (note this occurs _after_ any
+        # rotation and after any flip about the y-axis.
+        if self.config['flip-x']:
+            self.flip_x()
 
     def get_tile_colour(self, e):
         if self.config['random-tile-colours']:
