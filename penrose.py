@@ -343,9 +343,9 @@ class PenroseP3:
         for e in self.elements:
             if self.config['draw-arcs']:
                 arc1_d, arc2_d = e.arcs(proportion, half_arc=not draw_rhombuses, normal_arcs=normal_arcs)
-                svg.append('<path fill="none" stroke="{}" d="{}"/>'
+                svg.append('<path fill="none" stroke="{}" stroke-linecap="round" d="{}"/>'
                            .format(self.config['Aarc-colour'], arc1_d))
-                svg.append('<path fill="none" stroke="{}" d="{}"/>'
+                svg.append('<path fill="none" stroke="{}" stroke-linecap="round" d="{}"/>'
                            .format(self.config['Carc-colour'], arc2_d))
         svg.append('</g>\n</svg>')
         return '\n'.join(svg)
