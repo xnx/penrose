@@ -7,8 +7,10 @@ from penrose import PenroseP3, BtileL, psi
 
 scale = 100
 # Configuration of the tiling
-config = {'draw-arcs': True, 'tile-opacity': 0.6, 'Aarc-colour': '#f44',
-          'Carc-colour': '#44f'}
+config = {'draw-arcs': True,
+          'Aarc-colour': '#f44',
+          'Carc-colour': '#44f',
+          'tile-opacity': 0.6}
 tiling = PenroseP3(scale, ngen=7, config=config)
 
 theta = 2*math.pi / 5

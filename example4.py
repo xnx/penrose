@@ -7,8 +7,10 @@ from penrose import PenroseP3, BtileS
 
 scale = 100
 # Configuration of the tiling
-config = {'tile-opacity': 0.9, 'stroke-colour': '#800',
-          'Stile-colour': '#f00', 'Ltile-colour': '#ff0'}
+config = {'stroke-colour': '#800',
+          'Stile-colour': '#f00',
+          'Ltile-colour': '#ff0',
+          'tile-opacity': 0.9}
 tiling = PenroseP3(scale*1.1, ngen=4, config=config)
 
 # Create the initial tiles, a triangle

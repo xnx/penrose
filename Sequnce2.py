@@ -11,8 +11,12 @@ from penrose import PenroseP3, BtileS
 scale = 100
 theta = math.pi / 5
 # Configuration of the tiling
-config = {'normal-arcs': False, 'draw-arcs': True, 'reflect-x': False,
-          'draw-tiles': True, 'Aarc-colour': '#000', 'Carc-colour': '#000',
+config = {'draw-arcs': True,
+          'normal-arcs': False,
+          'Aarc-colour': '#000',
+          'Carc-colour': '#000',
+          'draw-tiles': True,
+          'reflect-x': False,
           'rotate': theta/2}
 tiling = PenroseP3(scale, ngen=0, config=config)
 

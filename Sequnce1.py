@@ -10,8 +10,11 @@ from penrose import PenroseP3, BtileL, psi
 
 scale = 100
 # Configuration of the tiling
-config = {'normal-arcs': False, 'draw-arcs': True,
-          'draw-tiles': True, 'Aarc-colour': '#000', 'Carc-colour': '#000'}
+config = {'draw-arcs': True,
+          'normal-arcs': False,
+          'Aarc-colour': '#000',
+          'Carc-colour': '#000',
+          'draw-tiles': True}
 tiling = PenroseP3(scale, ngen=0, config=config)
 
 theta = 2*math.pi / 5
@@ -27,4 +30,3 @@ for i in range(6):
 
     tiling.write_svg('pictures/sequence_1_{}.svg'.format(i))
     webbrowser.open('C:/Users/flynn/PycharmProjects/penrose/pictures/sequence_1_{}.svg'.format(i))
-

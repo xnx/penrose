@@ -7,9 +7,13 @@ from penrose import PenroseP3, BtileL, psi
 
 scale = 100
 # Configuration of the tiling
-config = {'normal-arcs': False, 'draw-arcs': True, 'proportion': 0.5,
-          'draw-tiles': True, 'Aarc-colour': '#000', 'Carc-colour': '#000'}
-tiling = PenroseP3(scale, ngen=8, config=config)
+config = {'draw-arcs': True,
+          'normal-arcs': False,
+          'Aarc-colour': '#000',
+          'Carc-colour': '#000',
+          'draw-tiles': False,
+          'proportion': 0.5}
+tiling = PenroseP3(scale, ngen=4, config=config)
 
 # Create the initial tiles, a triangle
 theta = 2*math.pi / 5

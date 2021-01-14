@@ -10,9 +10,9 @@ phi = 1 / psi
 scale = 100
 # Configuration of the tiling
 config = {'draw-arcs': True,
-          'draw-titles': False,
           'Aarc-colour': '#ff5e25',
           'Carc-colour': 'none',
+          'draw-titles': False,
           'Stile-colour': '#090',
           'Ltile-colour': '#9f3',
           'rotate': math.pi/2}
@@ -38,4 +38,3 @@ tiling.make_tiling()
 
 tiling.write_svg('pictures/example3.svg')
 webbrowser.open('C:/Users/flynn/PycharmProjects/penrose/pictures/example3.svg')
-
